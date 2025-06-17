@@ -1,7 +1,7 @@
 
 # 🚀 TalentKonnect – Micro-Task Marketplace
 
-**Live Demo**: [Click to Preview TalentKonnect](https://talentkonnect-d8rm64pa7-shadabs-projects-c1a9c904.vercel.app/)
+**Live Demo**: [Click to Preview TalentKonnect](https://talentkonnect.vercel.app/)
 
 ---
 
@@ -226,7 +226,7 @@ export default function Wallet() {
 - **Email**: ahmad8shadab@gmail.com  
 - **Phone**: +91 6201139223  
 - **GitHub**: [@ahmad2shadab](https://github.com/ahmad2shadab)  
-- **Preview**: [TalentKonnect on Vercel](https://talentkonnect-d8rm64pa7-shadabs-projects-c1a9c904.vercel.app/)
+- **Preview**: [TalentKonnect on Vercel](https://talentkonnect.vercel.app/)
 
 ---
 
