@@ -43,6 +43,8 @@ export function OnboardingForm() {
     setError(null);
 
     try {
+      console.log('Submitting form data:', formData);
+
       // Create user
       const userResponse = await fetch('/api/users', {
         method: 'POST',
@@ -52,28 +54,44 @@ export function OnboardingForm() {
         body: JSON.stringify(formData),
       });
 
+      console.log('User response status:', userResponse.status);
+
       if (!userResponse.ok) {
-        throw new Error('Failed to create user');
+        const errorData = await userResponse.json();
+        console.error('User creation failed:', errorData);
+        throw new Error(errorData.error || 'Failed to create user');
       }
 
       const userData = await userResponse.json();
+      console.log('User created successfully:', userData);
 
       // Grant credit
+      const creditData = {
+        userId: userData.id,
+        source: 'Tip',
+        amount: 1,
+      };
+
+      console.log('Granting credit with data:', creditData);
+
       const creditResponse = await fetch('/api/credits', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          userId: userData.id,
-          source: 'Tip',
-          amount: 1,
-        }),
+        body: JSON.stringify(creditData),
       });
 
+      console.log('Credit response status:', creditResponse.status);
+
       if (!creditResponse.ok) {
-        throw new Error('Failed to grant credit');
+        const errorData = await creditResponse.json();
+        console.error('Credit creation failed:', errorData);
+        throw new Error(errorData.error || 'Failed to grant credit');
       }
+
+      const creditResult = await creditResponse.json();
+      console.log('Credit granted successfully:', creditResult);
 
       // Show success animation
       setShowSuccess(true);
@@ -83,6 +101,7 @@ export function OnboardingForm() {
         router.push('/dashboard');
       }, 2000);
     } catch (err) {
+      console.error('Form submission error:', err);
       setError(
         err instanceof Error ? err.message : 'An unexpected error occurred'
       );
@@ -119,7 +138,7 @@ export function OnboardingForm() {
               View Dashboard
             </Button>
             <Button
-              onClick={() => router.push('/onboarding')}
+              onClick={() => window.location.reload()}
               variant="outline"
               className="border-accent-orange text-accent-orange hover:bg-accent-orange/10"
             >
@@ -138,7 +157,8 @@ export function OnboardingForm() {
 
           {error && (
             <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-              {error}
+              <p className="font-semibold">Error:</p>
+              <p>{error}</p>
             </div>
           )}
 
@@ -151,6 +171,7 @@ export function OnboardingForm() {
               onChange={handleChange}
               required
               className="border-2 focus:border-primary-blue"
+              placeholder="Enter your full name"
             />
           </div>
 
@@ -164,6 +185,7 @@ export function OnboardingForm() {
               onChange={handleChange}
               required
               className="border-2 focus:border-primary-blue"
+              placeholder="Enter your phone number"
             />
           </div>
 
@@ -196,6 +218,7 @@ export function OnboardingForm() {
               onChange={handleChange}
               required
               className="border-2 focus:border-primary-blue"
+              placeholder="Share your helpful tip"
             />
           </div>
 
