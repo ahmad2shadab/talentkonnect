@@ -1,20 +1,23 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from 'next/server';
 
-// In a real app, this would connect to a database
-const users: any[] = []
+// Simple in-memory storage for demo - no authentication required
+const users: any[] = [];
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json()
+    const body = await request.json();
 
     // Validate required fields
-    const { name, phone, category, tip } = body
+    const { name, phone, category, tip } = body;
 
     if (!name || !phone || !category || !tip) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
     }
 
-    // Create a new user
+    // Create a new user - no authentication required
     const newUser = {
       id: `user-${Date.now()}`,
       name,
@@ -22,14 +25,17 @@ export async function POST(request: Request) {
       category,
       tip,
       createdAt: new Date().toISOString(),
-    }
+    };
 
-    // In a real app, save to database
-    users.push(newUser)
+    // Store user (in real app, this would be a database)
+    users.push(newUser);
 
-    return NextResponse.json(newUser, { status: 201 })
+    return NextResponse.json(newUser, { status: 201 });
   } catch (error) {
-    console.error("Error creating user:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error('Error creating user:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }

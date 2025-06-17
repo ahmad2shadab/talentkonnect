@@ -1,27 +1,25 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from 'next/server';
 
-// In a real app, this would connect to a database
-// Using the credits array from the parent route
-const credits: any[] = []
+// Mock data for demonstration - no authentication required
+const mockBalances: { [key: string]: number } = {
+  'user-123': 5,
+  default: 3,
+};
 
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url)
-    const userId = searchParams.get("userId")
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('userId') || 'default';
 
-    if (!userId) {
-      return NextResponse.json({ error: "User ID is required" }, { status: 400 })
-    }
+    // Return mock balance - no authentication required
+    const balance = mockBalances[userId] || 1;
 
-    // Calculate balance from credit history
-    // In a real app, this would be a database query
-    const userCredits = credits.filter((credit) => credit.userId === userId)
-    const balance = userCredits.reduce((total, credit) => total + credit.amount, 0)
-
-    // For demo purposes, return a default balance if no credits found
-    return NextResponse.json({ balance: userCredits.length ? balance : 1 })
+    return NextResponse.json({ balance });
   } catch (error) {
-    console.error("Error fetching balance:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    console.error('Error fetching balance:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }

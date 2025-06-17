@@ -1,17 +1,17 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { Logo } from "@/components/logo"
-import { CreditBalance } from "@/components/credit-balance"
-import { CreditLedger } from "@/components/credit-ledger"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { User, CreditCard, Settings, LogOut } from "lucide-react"
-import Link from "next/link"
+import { useState } from 'react';
+import { Logo } from '@/components/logo';
+import { CreditBalance } from '@/components/credit-balance';
+import { CreditLedger } from '@/components/credit-ledger';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { User, CreditCard, Settings } from 'lucide-react';
+import Link from 'next/link';
 
 export default function DashboardPage() {
   // In a real app, this would come from authentication
-  const [userId] = useState("user-123")
+  const [userId] = useState('user-123');
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -19,10 +19,15 @@ export default function DashboardPage() {
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <Logo size="default" />
           <div className="flex items-center space-x-4">
-            <span className="font-inter font-semibold text-neutral-dark hidden md:inline-block">Welcome, User</span>
-            <Button variant="ghost" size="icon">
-              <LogOut className="h-5 w-5" />
-              <span className="sr-only">Log out</span>
+            <span className="font-inter font-semibold text-neutral-dark hidden md:inline-block">
+              Dashboard
+            </span>
+            <Button
+              asChild
+              variant="outline"
+              className="border-primary-blue text-primary-blue hover:bg-primary-blue/10"
+            >
+              <Link href="/onboarding">Add New Tip</Link>
             </Button>
           </div>
         </div>
@@ -35,19 +40,31 @@ export default function DashboardPage() {
             <div className="hidden md:block">
               <div className="bg-white rounded-xl shadow-sm p-4">
                 <nav className="space-y-2">
-                  <Button variant="ghost" className="w-full justify-start" asChild>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    asChild
+                  >
                     <Link href="/dashboard">
                       <CreditCard className="mr-2 h-5 w-5 text-accent-orange" />
                       Credits
                     </Link>
                   </Button>
-                  <Button variant="ghost" className="w-full justify-start" asChild>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    asChild
+                  >
                     <Link href="#">
                       <User className="mr-2 h-5 w-5" />
                       Profile
                     </Link>
                   </Button>
-                  <Button variant="ghost" className="w-full justify-start" asChild>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start"
+                    asChild
+                  >
                     <Link href="#">
                       <Settings className="mr-2 h-5 w-5" />
                       Settings
@@ -78,9 +95,11 @@ export default function DashboardPage() {
 
       <footer className="bg-white border-t py-6">
         <div className="container mx-auto px-4 text-center">
-          <p className="text-sm text-neutral-dark">© {new Date().getFullYear()} TalentKonnect. All rights reserved.</p>
+          <p className="text-sm text-neutral-dark">
+            © {new Date().getFullYear()} TalentKonnect. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>
-  )
+  );
 }

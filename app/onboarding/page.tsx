@@ -1,6 +1,6 @@
-import { Logo } from "@/components/logo"
-import { OnboardingForm } from "@/components/onboarding-form"
-import Link from "next/link"
+import { Logo } from '@/components/logo';
+import { OnboardingForm } from '@/components/onboarding-form';
+import Link from 'next/link';
 
 export default function OnboardingPage() {
   return (
@@ -20,13 +20,16 @@ export default function OnboardingPage() {
       <footer className="py-6">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-neutral-dark">
-            Already have an account?{" "}
-            <Link href="/dashboard" className="text-accent-orange hover:underline">
+            Want to see your credits?{' '}
+            <Link
+              href="/dashboard"
+              className="text-accent-orange hover:underline"
+            >
               Go to Dashboard
             </Link>
           </p>
         </div>
       </footer>
     </div>
-  )
+  );
 }

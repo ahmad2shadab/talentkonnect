@@ -1,98 +1,106 @@
-"use client"
+'use client';
 
-import type React from "react"
+import type React from 'react';
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Sparkles } from "lucide-react"
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Sparkles } from 'lucide-react';
 
 export function OnboardingForm() {
-  const router = useRouter()
+  const router = useRouter();
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    category: "",
-    tip: "",
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [showSuccess, setShowSuccess] = useState(false)
+    name: '',
+    phone: '',
+    category: '',
+    tip: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSelectChange = (value: string) => {
-    setFormData((prev) => ({ ...prev, category: value }))
-  }
+    setFormData((prev) => ({ ...prev, category: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    setError(null)
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
 
     try {
       // Create user
-      const userResponse = await fetch("/api/users", {
-        method: "POST",
+      const userResponse = await fetch('/api/users', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-      })
+      });
 
       if (!userResponse.ok) {
-        throw new Error("Failed to create user")
+        throw new Error('Failed to create user');
       }
 
-      const userData = await userResponse.json()
+      const userData = await userResponse.json();
 
       // Grant credit
-      const creditResponse = await fetch("/api/credits", {
-        method: "POST",
+      const creditResponse = await fetch('/api/credits', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           userId: userData.id,
-          source: "Tip",
+          source: 'Tip',
           amount: 1,
         }),
-      })
+      });
 
       if (!creditResponse.ok) {
-        throw new Error("Failed to grant credit")
+        throw new Error('Failed to grant credit');
       }
 
       // Show success animation
-      setShowSuccess(true)
+      setShowSuccess(true);
 
       // Redirect after delay
       setTimeout(() => {
-        router.push("/dashboard")
-      }, 2000)
+        router.push('/dashboard');
+      }, 2000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An unexpected error occurred")
+      setError(
+        err instanceof Error ? err.message : 'An unexpected error occurred'
+      );
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   const categories = [
-    "Cooking Hack",
-    "Study Tip",
-    "Repair Trick",
-    "Life Hack",
-    "Tech Tip",
-    "Career Advice",
-    "DIY Project",
-    "Other",
-  ]
+    'Cooking Hack',
+    'Study Tip',
+    'Repair Trick',
+    'Life Hack',
+    'Tech Tip',
+    'Career Advice',
+    'DIY Project',
+    'Other',
+  ];
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -103,18 +111,36 @@ export function OnboardingForm() {
           </div>
           <h3 className="text-2xl font-bold mb-2 text-center">+1 Credit!</h3>
           <p className="text-center mb-6">Thank you for sharing your talent!</p>
-          <Button
-            onClick={() => router.push("/dashboard")}
-            className="bg-primary-blue hover:bg-primary-blue/90 text-white"
-          >
-            Go to Dashboard
-          </Button>
+          <div className="flex gap-3">
+            <Button
+              onClick={() => router.push('/dashboard')}
+              className="bg-primary-blue hover:bg-primary-blue/90 text-white"
+            >
+              View Dashboard
+            </Button>
+            <Button
+              onClick={() => router.push('/onboarding')}
+              variant="outline"
+              className="border-accent-orange text-accent-orange hover:bg-accent-orange/10"
+            >
+              Share Another Tip
+            </Button>
+          </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-6 p-8 bg-white rounded-xl shadow-sm">
-          <h2 className="text-2xl font-bold text-center text-primary-blue mb-6">Share Your Talent</h2>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 p-8 bg-white rounded-xl shadow-sm"
+        >
+          <h2 className="text-2xl font-bold text-center text-primary-blue mb-6">
+            Share Your Talent
+          </h2>
 
-          {error && <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">{error}</div>}
+          {error && (
+            <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+              {error}
+            </div>
+          )}
 
           <div className="space-y-2">
             <Label htmlFor="name">Full Name</Label>
@@ -143,7 +169,11 @@ export function OnboardingForm() {
 
           <div className="space-y-2">
             <Label htmlFor="category">Category</Label>
-            <Select value={formData.category} onValueChange={handleSelectChange} required>
+            <Select
+              value={formData.category}
+              onValueChange={handleSelectChange}
+              required
+            >
               <SelectTrigger className="border-2 focus:border-primary-blue">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
@@ -174,10 +204,10 @@ export function OnboardingForm() {
             disabled={isSubmitting}
             className="w-full bg-accent-orange hover:bg-accent-orange/90 text-white"
           >
-            {isSubmitting ? "Submitting..." : "Submit & Earn Credit"}
+            {isSubmitting ? 'Submitting...' : 'Submit & Earn Credit'}
           </Button>
         </form>
       )}
     </div>
-  )
+  );
 }
