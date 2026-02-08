@@ -232,4 +232,4 @@ export default function Wallet() {
 
 > “Got a tip? Share it—every voice counts.”
 
-Let’s connect talents to the world—one credit at a time.
+Let’s connect talents to the world—one credit at a time!.
