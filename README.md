@@ -1,7 +1,7 @@
 
 # 🚀 TalentKonnect – Micro-Task Marketplace
 
-**Live Demo**: [Preview TalentKonnect](https://talentkonnect.vercel.app/)
+**Preview here**: [Preview TalentKonnect](https://talentkonnect.vercel.app/)
 
 ---
 
